@@ -45,7 +45,7 @@ struct punto
     double y=0;
     double z=0;
 };
-
+bool alambre=false;
 //----Codigo para separ por espacios
 string* splitString(string line){
     string* lineArray=new string[6];
@@ -147,7 +147,11 @@ void load3VN(string fileNam,string color){
         getline(file, line);
         string* vList=new string[tam];
         vList=splitString(line);
-
+        if(alambre==true){
+            glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+        }else{
+            glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+        }
         glBegin(GL_POLYGON);
             //recorro el arreglo de lista 
             //cout<<"[";
@@ -220,7 +224,11 @@ void loadDat(string fileNam,string color){
     }
    
     //DIbujamos los vertices
-    
+    if(alambre==true){
+        glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    }else{
+        glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
+    }
     for (int a = 0; a < 360; a++)
     {
         glRotated(a,0,1,0);
@@ -308,7 +316,7 @@ void dibujar(void)
         load3VN("silla.3vn","white");
         //glutSolidSphere (1.0, 20, 16);
     }else{
-        //glRotated(40.0,0,1,0);
+        glRotated(40.0,0,1,0);
         load3VN(figure,"white");
         //glutSolidSphere (1.0, 20, 16);
     }
@@ -347,7 +355,7 @@ void keyboard(unsigned char key, int x, int y)
         break;
     case 'c':
         posX=7;
-        posY=4;
+        posY=-2;
         posZ=3;
         figure="salon";
         break;
@@ -402,6 +410,12 @@ void keyboard(unsigned char key, int x, int y)
         break;
     case 'e':
         posZ =posZ-0.5;
+        break;
+    case 'm':
+        alambre=true;
+        break;
+    case 'n':
+        alambre=false;
         break;
   }
   cout << "[" << posX << "," << posY << "," << posZ << "]" << endl;
